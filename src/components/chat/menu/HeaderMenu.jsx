@@ -3,23 +3,57 @@ import { useState } from "react";
 import { MoreVert } from "@mui/icons-material";
 import { Menu, MenuItem, styled } from "@mui/material";
 
+import { googleLogout } from '@react-oauth/google';
+import { AccountContext } from '../../../context/AccountProvider';
+import { UserContext } from '../../../context/UserProvider';
+
+import { clientId } from '../../../constants/data';
+
+//components
+import infoDrawer from "../../drawer/infoDrawer";
+
 const MenuOption = styled(MenuItem)`
 font-size: 15px;
 padding: 15px 60px 5px 24px;
 color: 4A4A4A;
 `
 
-const HeaderMenu = () => {
+const Logout = styled(googleLogout)`
+    border: none;
+    box-shadow: none;
+`;
 
-    const [open, setOpen] = useState(null);
+const HeaderMenu = () => {
+    
+    const [open, setOpen] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false);
+    
+    const { setAccount, setShowloginButton, showlogoutButton, setShowlogoutButton } = UserContext(AccountContext);
+    const { setPerson } = UserContext(UserContext);
+
+
+    const handleClick = (event) => {
+        setOpen(event.currentTarget);
+    };
 
     const handleClose = () => {
         setOpen(null);
+    };
+
+    const onSignoutSuccess = () => {
+        alert("You have been logged out successfully");
+        console.clear();
+        setShowlogoutButton(false);
+        setShowloginButton(true);
+        setAccount('');
+        setPerson({});
+    };
+
+    const toggleDrawer = () => {
+        setOpenDrawer(true);
     }
 
-    const handleClick = (e) => {
-        setOpen(e.currentTarget);
-    }
+
 
     return (
         <>
@@ -29,22 +63,31 @@ const HeaderMenu = () => {
                 keepMounted
                 open={open}
                 onClose={handleClose}
-                getContentAnchorE1={null}
+                getContentAnchorEl={null}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'center'
+                    horizontal: 'center',
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'right'
+                    horizontal: 'right',
                 }}
             >
-                <MenuOption onClick={handleClose}>Profile</MenuOption>
+                <MenuOption onClick={() => { handleClose(); toggleDrawer()}}>Profile</MenuOption>
+                <MenuOption onClick={() => { handleClose(); }}>
+                {/* { showlogoutButton ?
+                    <Logout
+                        clientId={clientId}
+                        buttonText="Logout"
+                        onLogoutSuccess={onSignoutSuccess}
+                    >
+                    </Logout> : null
+                } */}
+                </MenuOption>
             </Menu>
+            <infoDrawer open={openDrawer} setOpen={setOpenDrawer} profile={true} />
         </>
     )
-
-
 }
 
 export default HeaderMenu;

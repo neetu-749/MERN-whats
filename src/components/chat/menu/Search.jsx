@@ -47,6 +47,8 @@ return (
             </Icon>
                 <Inputfield
                 placeholder='Search or start a new chat'
+                inputProps={{ 'aria-label': 'search' }}
+                    // onChange={(e) => SetText(e.target.value)}
                 />
         </Wrapper>
     </Component>

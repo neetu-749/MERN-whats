@@ -1,9 +1,27 @@
 
 import { Drawer, Box, Typography, styled } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import {  useState } from "react";
+// import {  useState } from "react";
+
+//components
+import Profile from "./Profile";
 
 const Header = styled(Box)`
+background: #008069;
+height: 107px;
+color: #FFFFFF;
+display: flex;
+& > svg, & > p{   
+    margin-top: auto;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 17px;
+} 
+`;
+
+const Component = styled(Box)`
+background: #ededed;
+height: 85%;
 
 `
 
@@ -16,7 +34,6 @@ const drawerStyle = {
 }
 const infoDrawer = ({open, setOpen}) => { // object destructuring
     
-    // const [Open, setOpen] = useState(false);
 
     const handleClose= () => {
         setOpen(false);
@@ -33,9 +50,9 @@ const infoDrawer = ({open, setOpen}) => { // object destructuring
             <ArrowBack onClick = {() => setOpen(false)}/>
             <Typography>Profile</Typography>
             </Header>
-            <Box>
-
-            </Box>
+            <Component>
+                <Profile/>
+            </Component>
         </Drawer>
     )
 
